@@ -10,6 +10,34 @@ RU_CH_FILE_PATH = "ru_ch.txt"
 TEMP_RUS_FILE_PATH = "temp_ru_file"
 TEMP_CH_FILE_PATH = "temp_ch_file"
 TEMP_RUS_FILE_FOR_SECOND_PATH = "temp_rus_file_part_2"
+PERMUTATIONS_PATH = "permutations"
+
+
+def create_permute_file_if_not_exist(count_example_text):
+    if not os.path.exists(PERMUTATIONS_PATH):
+        permute = list(np.random.permutation(count_example_text))
+        permute = list(map(str, permute))
+        permute = " ".join(permute)
+        with open(PERMUTATIONS_PATH, "w") as file_output:
+            file_output.write(permute)
+
+
+def read_first_index_and_del_it():
+    if os.path.exists(PERMUTATIONS_PATH):
+        with open(PERMUTATIONS_PATH, "r") as file_input:
+            input_array = file_input.read()
+        input_array = input_array.split()
+        input_array = list(map(int, input_array))
+        if len(input_array) == 0:
+            os.remove(PERMUTATIONS_PATH)
+            return 0
+        else:
+            answer_index = input_array.pop()
+            input_array = list(map(str, input_array))
+            input_array = " ".join(input_array)
+            with open(PERMUTATIONS_PATH, "w") as file_output:
+                file_output.write(input_array)
+            return answer_index
 
 
 def main():
@@ -17,6 +45,9 @@ def main():
 
     count_example_text = ru_ch_dict.shape[0]
     random_index = random.randint(0, count_example_text - 1)
+
+    create_permute_file_if_not_exist(count_example_text)
+
     if st.button("Random Chinese text"):
         chinese_text = ru_ch_dict["ch"][random_index]
         russian_text = ru_ch_dict["ru"][random_index]
@@ -33,9 +64,9 @@ def main():
                 unsafe_allow_html=True)
 
     if st.button("Random Russian text"):
-        chinese_text = ru_ch_dict["ch"][random_index]
-        russian_text = ru_ch_dict["ru"][random_index]
-        # st.text(russian_text)
+        random_index_from_permute = read_first_index_and_del_it()
+        chinese_text = ru_ch_dict["ch"][random_index_from_permute]
+        russian_text = ru_ch_dict["ru"][random_index_from_permute]
         with open(TEMP_CH_FILE_PATH, "w", encoding='utf-8') as file_output:
             file_output.write(chinese_text)
         with open(TEMP_RUS_FILE_FOR_SECOND_PATH, "w", encoding='utf-8') as file_output:

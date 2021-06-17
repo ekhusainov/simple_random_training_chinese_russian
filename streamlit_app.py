@@ -2,15 +2,17 @@
 import random
 import os
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import streamlit as st
 
+FAIL_HTML = "<h3 style='color: red;'>FAIL!</h3>"
+OK_HTML = "<h3 style='color: green;'>OK!</h3>"
+PERMUTATIONS_PATH = "permutations"
 RU_CH_FILE_PATH = "ru_ch.txt"
-TEMP_RUS_FILE_PATH = "temp_ru_file"
 TEMP_CH_FILE_PATH = "temp_ch_file"
 TEMP_RUS_FILE_FOR_SECOND_PATH = "temp_rus_file_part_2"
-PERMUTATIONS_PATH = "permutations"
+TEMP_RUS_FILE_PATH = "temp_ru_file"
 
 
 def create_permute_file_if_not_exist(count_example_text):
@@ -81,11 +83,9 @@ def main():
     with open(TEMP_CH_FILE_PATH, "r", encoding='utf-8') as file_input:
         chinese_text = file_input.read()
     if our_chinese_answer == chinese_text:
-        st.markdown("<h3 style='color: green;'>OK!</h3>",
-                    unsafe_allow_html=True)
+        st.markdown(OK_HTML, unsafe_allow_html=True)
     else:
-        st.markdown("<h3 style='color: red;'>FAIL!</h3>",
-                    unsafe_allow_html=True)
+        st.markdown(FAIL_HTML, unsafe_allow_html=True)
 
     if st.button("Translate to Chinese"):
         with open(TEMP_CH_FILE_PATH, "r", encoding='utf-8') as file_input:

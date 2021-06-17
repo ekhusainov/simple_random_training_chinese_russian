@@ -1,6 +1,6 @@
-"""Title"""
-import random
+"""Simulator translator Russian-Chinese for my sweet wife."""
 import os
+import random
 
 import numpy as np
 import pandas as pd
@@ -33,13 +33,12 @@ def read_first_index_and_del_it():
         if len(input_array) == 0:
             os.remove(PERMUTATIONS_PATH)
             return 0
-        else:
-            answer_index = input_array.pop()
-            input_array = list(map(str, input_array))
-            input_array = " ".join(input_array)
-            with open(PERMUTATIONS_PATH, "w") as file_output:
-                file_output.write(input_array)
-            return answer_index
+        answer_index = input_array.pop()
+        input_array = list(map(str, input_array))
+        input_array = " ".join(input_array)
+        with open(PERMUTATIONS_PATH, "w") as file_output:
+            file_output.write(input_array)
+        return answer_index
 
 
 def main():
@@ -71,11 +70,13 @@ def main():
         russian_text = ru_ch_dict["ru"][random_index_from_permute]
         with open(TEMP_CH_FILE_PATH, "w", encoding='utf-8') as file_output:
             file_output.write(chinese_text)
-        with open(TEMP_RUS_FILE_FOR_SECOND_PATH, "w", encoding='utf-8') as file_output:
+        with open(TEMP_RUS_FILE_FOR_SECOND_PATH, "w", encoding='utf-8') as \
+                file_output:
             file_output.write(russian_text)
 
     if os.path.exists(TEMP_RUS_FILE_FOR_SECOND_PATH):
-        with open(TEMP_RUS_FILE_FOR_SECOND_PATH, "r", encoding='utf-8') as file_input:
+        with open(TEMP_RUS_FILE_FOR_SECOND_PATH, "r", encoding='utf-8') as \
+                file_input:
             ru_text = file_input.read()
         st.text(ru_text)
 
